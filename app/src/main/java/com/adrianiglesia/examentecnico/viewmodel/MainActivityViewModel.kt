@@ -1,7 +1,6 @@
 package com.adrianiglesia.examentecnico.viewmodel
 
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,7 +14,15 @@ class MainActivityViewModel: ViewModel() {
     private val repository= MainRepository()
 
     fun getAllHotels(): LiveData<List<Hotel>>? {
+        loadHotels()
+        return hotelList
+    }
 
+    fun getMessage():LiveData<String>{
+        return message
+    }
+
+    private fun loadHotels(){
         repository.getAllHotels({
             hotelList?.value = it
         },{
@@ -23,11 +30,5 @@ class MainActivityViewModel: ViewModel() {
             hotelList?.value = null
 
         })
-
-        return hotelList
-    }
-
-    fun getMessage():LiveData<String>{
-        return message
     }
 }

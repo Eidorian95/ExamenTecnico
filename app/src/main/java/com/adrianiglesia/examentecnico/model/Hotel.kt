@@ -25,5 +25,7 @@ data class Hotel(
     @SerializedName("reviews")
     val reviews: List<Review>,
     @SerializedName("stars")
-    val stars: Int
+    val stars: Int,
+    @SerializedName("price")
+    val price: Price
 )
