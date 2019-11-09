@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adrianiglesia.examentecnico.R
 import com.adrianiglesia.examentecnico.model.Hotel
+import com.adrianiglesia.examentecnico.service.Network
 import com.adrianiglesia.examentecnico.view.adapters.HotelListAdapter
 import com.adrianiglesia.examentecnico.viewmodel.MainActivityViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -25,8 +26,31 @@ class MainActivity : AppCompatActivity(), HotelListAdapter.OnItemClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mainViewModel = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
+        if(Network.isConnected(this)){
+            setObserve()
+        }else{
+            layout_error_main.visibility = VISIBLE
+            tv_message_main.text = "No se ha detectado conexion, verifique y vuelva a intentar"
+        }
 
+
+    }
+
+    override fun onItemClicked(id: String) {
+        val intent = Intent(this, HotelDetailActivity::class.java)
+        intent.putExtra("ID",id)
+        startActivity(intent)
+    }
+
+    private fun setRecyclerView(hoteles:List<Hotel>){
+        recycler_hoteles.layoutManager = LinearLayoutManager(this)
+        recycler_hoteles.hasFixedSize()
+        recycler_hoteles.adapter = HotelListAdapter(hoteles,this)
+        recycler_hoteles.visibility = VISIBLE
+    }
+
+    private fun setObserve(){
+        mainViewModel = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
         mainViewModel.getAllHotels()?.observe(this, Observer {
             if(it != null){
                 setRecyclerView(it)
@@ -46,18 +70,5 @@ class MainActivity : AppCompatActivity(), HotelListAdapter.OnItemClickListener {
                 progress_main.visibility = GONE
             }
         })
-    }
-
-    override fun onItemClicked(id: String) {
-        val intent = Intent(this, HotelDetailActivity::class.java)
-        intent.putExtra("ID",id)
-        startActivity(intent)
-    }
-
-    private fun setRecyclerView(hoteles:List<Hotel>){
-        recycler_hoteles.layoutManager = LinearLayoutManager(this)
-        recycler_hoteles.hasFixedSize()
-        recycler_hoteles.adapter = HotelListAdapter(hoteles,this)
-        recycler_hoteles.visibility = View.VISIBLE
     }
 }

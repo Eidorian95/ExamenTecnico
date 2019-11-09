@@ -11,7 +11,7 @@ class PageAdapterDetail(fm:FragmentManager, val id:String): FragmentPagerAdapter
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> {
-                FragmentDetail.newInstance(id)
+                FragmentDetail.newInstance()
             }
             else -> FragmentReviews.newInstance(id)
         }
