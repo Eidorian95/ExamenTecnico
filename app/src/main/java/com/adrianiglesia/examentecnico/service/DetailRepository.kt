@@ -16,7 +16,7 @@ class DetailRepository {
         services = retrofit.create(ApiServices::class.java)
     }
 
-    fun getHotelDetail(id:String, successHandler: (Hotel)->Unit, failureHandler: (String)-> Unit){
+    fun getHotelDetail(id:String, successHandler: (HotelDetailDataResponse)->Unit, failureHandler: (String)-> Unit){
         val hotelsList: Call<HotelDetailDataResponse> = services.getHotelDetail(id)
         hotelsList.enqueue(object : Callback<HotelDetailDataResponse> {
             override fun onFailure(call: Call<HotelDetailDataResponse>, t: Throwable) {
@@ -24,7 +24,7 @@ class DetailRepository {
             }
             override fun onResponse(call: Call<HotelDetailDataResponse>, response: Response<HotelDetailDataResponse>) {
                 if(response.isSuccessful){
-                    successHandler(response.body()?.hotel!!)
+                    successHandler(response.body()!!)
                 }else{
                     failureHandler(response.message())
                 }

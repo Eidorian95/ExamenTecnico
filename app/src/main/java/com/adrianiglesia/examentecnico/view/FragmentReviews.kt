@@ -14,6 +14,16 @@ import com.adrianiglesia.examentecnico.R
  */
 class FragmentReviews : Fragment() {
 
+    lateinit var id: String
+
+    companion object {
+        private const val ID = "ID"
+        fun newInstance(id: String) = FragmentReviews().apply {
+            arguments = Bundle(1).apply {
+                putString(ID, id)
+            }
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
