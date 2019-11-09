@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -35,10 +37,20 @@ class MainActivity : AppCompatActivity(), HotelListAdapter.OnItemClickListener {
             Log.d("MESSAGE",it)
         })
 
+        mainViewModel.getLoading().observe(this, Observer {
+            if(it == true){
+                recycler_hoteles.visibility = GONE
+                progress_main.visibility = VISIBLE
+            }else{
+                recycler_hoteles.visibility = VISIBLE
+                progress_main.visibility = GONE
+            }
+        })
     }
 
     override fun onItemClicked(id: String) {
         val intent = Intent(this, HotelDetailActivity::class.java)
+        intent.putExtra("ID",id)
         startActivity(intent)
     }
 
