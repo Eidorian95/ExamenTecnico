@@ -21,11 +21,15 @@ import com.adrianiglesia.examentecnico.model.Price
 import com.adrianiglesia.examentecnico.service.Network
 import com.adrianiglesia.examentecnico.view.adapters.AmentitiesAdapter
 import com.adrianiglesia.examentecnico.viewmodel.HotelDetailViewModel
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_fragment_detail.*
+import kotlinx.android.synthetic.main.template_hotel_item.view.*
 
 
 /**
@@ -63,9 +67,11 @@ class FragmentDetail : Fragment() {
     
     @SuppressLint("SetTextI18n")
     private fun setUI(hotel: Hotel, price: Price) {
-        val imageUrl = hotel.mainPicture.replace("http", "https")
-        val uri = Uri.parse(imageUrl)
-        Picasso.get().load(uri).into(hotel_image_desc)
+
+        Glide.with(this)
+            .load(hotel.mainPicture)
+            .into(hotel_image_desc)
+
         hotel_name_desc.text = hotel.name
         hotel_location_desc.text = "${hotel.address}, ${hotel.city.name},${hotel.city.country.name}"
         hotel_score_desc.text = hotel.rating.toString()
