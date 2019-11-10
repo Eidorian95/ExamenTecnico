@@ -50,7 +50,7 @@ class FragmentReviews : Fragment() {
         }else{
             layout_no_reviews.visibility = GONE
             layout_error.visibility = VISIBLE
-            tv_message.text = "No se ha detectado conexion, verifique y vuelva a intentar"
+            tv_message.text = getString(R.string.error_message_connection)
         }
     }
     private fun setReviewsList(reviews: List<Review>) {

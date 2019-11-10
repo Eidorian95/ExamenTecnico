@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity(), HotelListAdapter.OnItemClickListener {
             setObserve()
         }else{
             layout_error_main.visibility = VISIBLE
-            tv_message_main.text = "No se ha detectado conexion, verifique y vuelva a intentar"
+            tv_message_main.text = getString(R.string.error_message_connection)
         }
 
 

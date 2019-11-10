@@ -24,7 +24,7 @@
             android:layout_below="@+id/textView2"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:text="La mejor opción para tu hospedaje"
+            android:text="@string/main_subtitle"
             android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
         <TextView
@@ -36,7 +36,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:textColor="@android:color/black"
-            android:text="Hoteles"
+            android:text="@string/main_title"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
     </RelativeLayout>
 
@@ -97,7 +97,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="5dp"
-            android:text="No encontramos comentarios aaaaaa aaaaaa a"
+            android:text="@string/error_message_general"
             android:textAlignment="center"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"

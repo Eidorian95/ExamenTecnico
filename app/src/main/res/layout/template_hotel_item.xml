@@ -28,7 +28,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:text="Hyatt House New York"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -41,7 +40,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
-        android:text="Nueva York, Estados Unidos"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -72,7 +70,6 @@
             android:layout_marginEnd="2dp"
             android:layout_marginBottom="3dp"
             android:gravity="center_horizontal"
-            android:text="8.55"
             android:textColor="@android:color/white" />
     </RelativeLayout>
 
@@ -109,7 +106,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:text="Precio por noche con impuestos desde"
+        android:text="@string/precio_subtitle"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
