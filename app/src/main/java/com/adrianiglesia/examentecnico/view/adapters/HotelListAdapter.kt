@@ -10,7 +10,10 @@ import com.adrianiglesia.examentecnico.R
 import com.adrianiglesia.examentecnico.model.Hotel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.GlideBuilder
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fragment_fragment_detail.*
 import kotlinx.android.synthetic.main.template_hotel_item.view.*
 
 class HotelListAdapter(private val hoteles:List<Hotel>, private val itemClickListener: OnItemClickListener):
@@ -34,9 +37,9 @@ class HotelListAdapter(private val hoteles:List<Hotel>, private val itemClickLis
         @SuppressLint("DefaultLocale", "SetTextI18n")
         fun bindItems(hotel: Hotel, itemClickListener: OnItemClickListener) {
 
-            val imageUrl = hotel.mainPicture.replace("http","https")
-            val uri=Uri.parse(imageUrl)
-            Picasso.get().load(uri).into(itemView.hotel_image)
+            Glide.with(itemView.context)
+                .load(hotel.mainPicture)
+                .into(itemView.hotel_image)
 
             itemView.hotel_name.text = hotel.name
             itemView.hotel_location.text = hotel.address
