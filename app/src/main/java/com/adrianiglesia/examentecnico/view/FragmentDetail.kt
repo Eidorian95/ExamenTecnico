@@ -18,6 +18,7 @@ import com.adrianiglesia.examentecnico.R
 import com.adrianiglesia.examentecnico.model.Amenity
 import com.adrianiglesia.examentecnico.model.Hotel
 import com.adrianiglesia.examentecnico.model.Price
+import com.adrianiglesia.examentecnico.service.Network
 import com.adrianiglesia.examentecnico.view.adapters.AmentitiesAdapter
 import com.adrianiglesia.examentecnico.viewmodel.HotelDetailViewModel
 import com.google.android.gms.maps.*
@@ -25,25 +26,20 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_fragment_detail.*
-import kotlin.properties.Delegates
 
 
 /**
  * A simple [Fragment] subclass.
  */
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class FragmentDetail : Fragment() {
 
     private lateinit var viewModel: HotelDetailViewModel
-    private lateinit var id: String
-    private var lat by Delegates.notNull<Double>()
-    private var lng by Delegates.notNull<Double>()
 
     companion object {
-        private const val ID = "ID"
 
-        fun newInstance(id: String) = FragmentDetail().apply {
-            arguments = Bundle(2).apply {
-                putString(ID, id)
+        fun newInstance() = FragmentDetail().apply {
+            arguments = Bundle(0).apply {
             }
         }
     }
@@ -53,25 +49,16 @@ class FragmentDetail : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        id = arguments!!.getString("ID")
-        viewModel = ViewModelProviders.of(this).get(HotelDetailViewModel::class.java)
-        viewModel.getHotelDetail(id).observe(this, Observer {
-            if (it != null) {
-                setUI(it.hotel, it.price)
-                val mapFragment = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
-                mapFragment.getMapAsync{ map ->
-                    val location = LatLng(it.hotel.geoLocation.latitude, it.hotel.geoLocation.longitude)
-                    map?.addMarker(MarkerOptions().position(location).title("Location"))
-                    map?.moveCamera(CameraUpdateFactory.newLatLngZoom(location,15.0f))
-                }
-            }
-        })
-
-        viewModel.getLoading().observe(this, Observer {
-            setVisibilities(it)
-        })
-
         return inflater.inflate(R.layout.fragment_fragment_detail, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        if(Network.isConnected(activity)){
+            setObeserve()
+        }else{
+            layout_error.visibility = VISIBLE
+            tv_message.text = "No se ha detectado conexion, verifique y vuelva a intentar"
+        }
     }
     
     @SuppressLint("SetTextI18n")
@@ -107,5 +94,37 @@ class FragmentDetail : Fragment() {
         recycler_amentities_list.hasFixedSize()
         recycler_amentities_list.adapter = AmentitiesAdapter(amenities)
         recycler_amentities_list.visibility = VISIBLE
+    }
+
+    private fun setObeserve(){
+        viewModel = activity?.run { ViewModelProviders.of(this).get(HotelDetailViewModel::class.java) }
+            ?:throw Exception("Invalid Activity")
+
+        viewModel.getHotelDetail().observe(this, Observer {
+            if (it != null) {
+
+                setUI(it.hotel, it.price)
+
+                val mapFragment = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
+                mapFragment.getMapAsync{ map ->
+                    val location = LatLng(it.hotel.geoLocation.latitude, it.hotel.geoLocation.longitude)
+                    map?.addMarker(MarkerOptions().position(location).title("Location"))
+                    map?.moveCamera(CameraUpdateFactory.newLatLngZoom(location,15.0f))
+                }
+            }
+        })
+
+        viewModel.getLoading().observe(this, Observer {
+            setVisibilities(it)
+        })
+
+        viewModel.getMessage().observe(this, Observer {
+            if(it != null){
+                relativeScrollView.visibility = GONE
+                layout_price.visibility = GONE
+                layout_error.visibility = VISIBLE
+                tv_message.text = it
+            }
+        })
     }
 }

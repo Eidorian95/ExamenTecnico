@@ -1,6 +1,5 @@
 package com.adrianiglesia.examentecnico.service
 
-import com.adrianiglesia.examentecnico.model.Hotel
 import com.adrianiglesia.examentecnico.model.response.HotelDetailDataResponse
 import retrofit2.Call
 import retrofit2.Callback
