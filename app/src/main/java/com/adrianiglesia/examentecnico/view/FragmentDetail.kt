@@ -57,7 +57,7 @@ class FragmentDetail : Fragment() {
             setObeserve()
         }else{
             layout_error.visibility = VISIBLE
-            tv_message.text = "No se ha detectado conexion, verifique y vuelva a intentar"
+            tv_message.text = getString(R.string.error_message_connection)
         }
     }
     
