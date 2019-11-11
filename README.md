@@ -8,6 +8,6 @@ Para el desarrollo se utilizo MVVM junto con Kotlin porque son tecnologias mas r
 Librerias:
 - Gson (para serializar los json)
 - Retrofit (para api services)
-- Picasso (descargar imagenes)
+- Glide (descargar imagenes)
 Estas librerias ya las vengo utilizando por eso decido trabajar con ellas.
 
